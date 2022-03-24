@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { Link } from 'react-router-dom'
 import {
   Badge,
   DropdownItem,
@@ -33,7 +34,7 @@ export default class CartSummary extends Component {
 }
           < DropdownItem divider/>
           <DropdownItem>
-            {this.props.cart.length}
+            <Link to="cart">Go to cart</Link>
           </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown >

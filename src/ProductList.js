@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { Outlet } from 'react-router-dom'
 import {Table, Button} from 'reactstrap'
 
 export default class ProductList extends Component {
@@ -61,6 +62,8 @@ export default class ProductList extends Component {
               ))}
 
           </tbody>
+
+          <Outlet />
         </Table>
       </div>
     )

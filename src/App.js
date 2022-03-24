@@ -3,7 +3,10 @@ import {Col, Container, Row} from 'reactstrap';
 import CategoryList from './CategoryList';
 import Navi from './Navi';
 import ProductList from './ProductList';
-
+import alertify from 'alertifyjs';
+import {Route, Routes} from 'react-router-dom';
+import NotFound from './NotFound';
+import CartList from './CartList';
 export default class App extends Component {
 
   state = {
@@ -36,11 +39,17 @@ export default class App extends Component {
       newCart.push({product: product, quantity: 1});
     }
     this.setState({cart: newCart});
+    alertify.success(product.productName + " added to cart", 1.5);
   }
 
   removeFromCart = (product) => {
-    let newCart = this.state.cart.filter(c=>c.product.id!==product.id);
-    this.setState({cart:newCart});
+    let newCart = this
+      .state
+      .cart
+      .filter(c => c.product.id !== product.id);
+    this.setState({cart: newCart});
+    alertify.error(product.productName + " remove to cart", 1.5);
+
   }
 
   componentDidMount() {
@@ -66,11 +75,37 @@ export default class App extends Component {
                 info={categoryInfo}/>
             </Col>
             <Col xs="9">
-              <ProductList
-                products={this.state.products}
-                currentCategory={this.state.currentCategory}
-                addToCart={this.addToCart}
-                info={productInfo}/>
+              <Routes>
+                <Route
+                  exact
+                  path="/"
+                  element={< ProductList products = {
+                  this.state.products
+                }
+                currentCategory = {
+                  this.state.currentCategory
+                }
+                addToCart = {
+                  this.addToCart
+                }
+                info = {
+                  productInfo
+                } />}/>
+                <Route
+                  exact
+                  path="/cart"
+                  element={< CartList products = {
+                  this.state.products
+                }
+                cart = {
+                  this.state.cart
+                }
+                removeFromCart = {
+                  this.removeFromCart
+                } />}/>
+                <Route path="*" element={< NotFound />}></Route>
+              </Routes>
+
             </Col>
           </Row>
         </Container>
